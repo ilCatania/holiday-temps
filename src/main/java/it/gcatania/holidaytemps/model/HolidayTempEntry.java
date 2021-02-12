@@ -1,4 +1,4 @@
-package it.gcatania.holidaytemps;
+package it.gcatania.holidaytemps.model;
 
 import lombok.Value;
 
@@ -8,5 +8,5 @@ import java.time.LocalDate;
 public class HolidayTempEntry {
     LocalDate date;
     String title;
-    Temperatures temps;
+    TemperatureBounds temps;
 }

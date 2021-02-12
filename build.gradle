@@ -7,7 +7,6 @@ plugins {
 
 group = 'it.gcatania'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
@@ -21,4 +20,10 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(11)
+	}
 }

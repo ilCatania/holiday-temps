@@ -1,3 +1,5 @@
+![Java CI](https://github.com/ilCatania/holiday-temps/workflows/Java%20CI/badge.svg)
+
 Holiday temperatures
 ===================
 

@@ -1,5 +1,6 @@
 package it.gcatania.holidaytemps;
 
+import it.gcatania.holidaytemps.model.Holiday;
 import it.gcatania.holidaytemps.model.HolidayTempEntry;
 import it.gcatania.holidaytemps.model.TemperatureBounds;
 import it.gcatania.holidaytemps.service.HolidayService;
@@ -12,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.time.Month;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 public class TempsController {
@@ -30,18 +31,14 @@ public class TempsController {
     @RequestMapping("/bank-holidays/{city}/temps")
     public List<HolidayTempEntry> temps(@PathVariable("city") String city) {
         log.debug("requested city: {}", city);
-        return Arrays.asList(
-                new HolidayTempEntry(
-                        LocalDate.of(2021, Month.JANUARY, 23),
-                        "Mardi gras",
-                        new TemperatureBounds(22.3d, 33.5d)
-                ),
-                new HolidayTempEntry(
-                        LocalDate.of(2018, Month.DECEMBER, 25),
-                        "Christmas",
-                        new TemperatureBounds(20.6d, 30.0d)
-                )
-        );
+        // TODO implement date filtering, check outputs of holiday / temp services for missing entries, handle
+        List<Holiday> holidays = holidayService.holidays(city, null, null);
+        List<LocalDate> dates = holidays.stream().map(Holiday::getDate).collect(Collectors.toList());
+        Map<LocalDate, TemperatureBounds> temperatureBounds = temperatureService.temperatureBounds(dates);
+        List<HolidayTempEntry> results = holidays.stream()
+                .map(h -> new HolidayTempEntry(h.getDate(), h.getTitle(), temperatureBounds.get(h.getDate())))
+                .collect(Collectors.toUnmodifiableList());
+        return results;
     }
 
 }

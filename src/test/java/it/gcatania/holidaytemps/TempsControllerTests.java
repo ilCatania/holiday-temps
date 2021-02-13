@@ -22,7 +22,6 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -40,6 +39,7 @@ public class TempsControllerTests {
 
     @Test
     public void happyFlow() {
+        // set up test data
         String city = "London";
         Holiday christmas = new Holiday("Christmas", LocalDate.of(2020, Month.DECEMBER, 25));
         Holiday newYearsDay = new Holiday("New Year's Day", LocalDate.of(2021, Month.JANUARY, 1));
@@ -52,14 +52,14 @@ public class TempsControllerTests {
                 new HolidayTempEntry(newYearsDay.getDate(), newYearsDay.getTitle(), tempBoundsMap.get(newYearsDay.getDate()))
         );
 
+        // mock services
         when(holidayService.holidays(city, null, null))
                 .thenReturn(Arrays.asList(christmas, newYearsDay));
         when(temperatureService.temperatureBounds(Arrays.asList(christmas.getDate(), newYearsDay.getDate())))
                 .thenReturn(tempBoundsMap);
 
+        // check results
         List<HolidayTempEntry> actual = tempsController.temps(city);
         assertThat(actual, is(equalTo(expected)));
-        verify(holidayService);
-        verify(temperatureService);
     }
 }

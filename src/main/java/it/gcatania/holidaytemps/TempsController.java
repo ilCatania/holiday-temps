@@ -34,7 +34,7 @@ public class TempsController {
         // TODO implement date filtering, check outputs of holiday / temp services for missing entries, handle
         List<Holiday> holidays = holidayService.holidays(city, null, null);
         List<LocalDate> dates = holidays.stream().map(Holiday::getDate).collect(Collectors.toList());
-        Map<LocalDate, TemperatureBounds> temperatureBounds = temperatureService.temperatureBounds(dates);
+        Map<LocalDate, TemperatureBounds> temperatureBounds = temperatureService.temperatureBounds(city, dates);
         List<HolidayTempEntry> results = holidays.stream()
                 .map(h -> new HolidayTempEntry(h.getDate(), h.getTitle(), temperatureBounds.get(h.getDate())))
                 .collect(Collectors.toUnmodifiableList());

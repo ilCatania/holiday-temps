@@ -55,7 +55,7 @@ public class TempsControllerTests {
         // mock services
         when(holidayService.holidays(city, null, null))
                 .thenReturn(Arrays.asList(christmas, newYearsDay));
-        when(temperatureService.temperatureBounds(Arrays.asList(christmas.getDate(), newYearsDay.getDate())))
+        when(temperatureService.temperatureBounds(city, Arrays.asList(christmas.getDate(), newYearsDay.getDate())))
                 .thenReturn(tempBoundsMap);
 
         // check results

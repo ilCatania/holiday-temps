@@ -1,0 +1,53 @@
+[
+  {
+    "id": 5158767462187008,
+    "weather_state_name": "Light Cloud",
+    "weather_state_abbr": "lc",
+    "wind_direction_compass": "NW",
+    "created": "2020-12-25T21:20:01.968049Z",
+    "applicable_date": "2020-12-25",
+    "min_temp": 1.37,
+    "max_temp": 4.54,
+    "the_temp": 4.28,
+    "wind_speed": 5.404310234412365,
+    "wind_direction": 324.3394225313758,
+    "air_pressure": 1031.5,
+    "humidity": 75,
+    "visibility": 8.894617931281317,
+    "predictability": 70
+  },
+  {
+    "id": 6589215514034176,
+    "weather_state_name": "Light Cloud",
+    "weather_state_abbr": "lc",
+    "wind_direction_compass": "NNW",
+    "created": "2020-12-25T18:20:01.891706Z",
+    "applicable_date": "2020-12-25",
+    "min_temp": 1.505,
+    "max_temp": 4.449999999999999,
+    "the_temp": 4.275,
+    "wind_speed": 5.467159726710676,
+    "wind_direction": 326.33107294724834,
+    "air_pressure": 1031.5,
+    "humidity": 75,
+    "visibility": 8.894617931281317,
+    "predictability": 70
+  },
+  {
+    "id": 6186199606624256,
+    "weather_state_name": "Heavy Rain",
+    "weather_state_abbr": "hr",
+    "wind_direction_compass": "W",
+    "created": "2020-12-18T15:20:12.657938Z",
+    "applicable_date": "2020-12-25",
+    "min_temp": 4.205,
+    "max_temp": 8.665,
+    "the_temp": 8.92,
+    "wind_speed": 7.369317386463056,
+    "wind_direction": 277.5,
+    "air_pressure": 1020.0,
+    "humidity": 82,
+    "visibility": 9.922055197645749,
+    "predictability": 77
+  }
+]

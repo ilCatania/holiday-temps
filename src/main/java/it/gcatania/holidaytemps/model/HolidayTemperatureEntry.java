@@ -5,7 +5,7 @@ import lombok.Value;
 import java.time.LocalDate;
 
 @Value
-public class HolidayTempEntry {
+public class HolidayTemperatureEntry {
     LocalDate date;
     String title;
     TemperatureBounds temps;

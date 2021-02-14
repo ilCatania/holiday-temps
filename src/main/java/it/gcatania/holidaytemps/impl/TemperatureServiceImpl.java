@@ -22,13 +22,13 @@ public class TemperatureServiceImpl implements TemperatureService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${temperatures.ws.host}")
-    private String wsHost;
+    @Value("${temperature.ws.root}")
+    private String wsRoot;
 
     @Override
     public Map<LocalDate, TemperatureBounds> temperatureBounds(String location, List<LocalDate> dates) {
         List<Map<String, ?>> woeidResults = restTemplate
-                .getForObject(wsHost + "/api/location/search/?query={location}", List.class, location);
+                .getForObject(wsRoot + "/api/location/search/?query={location}", List.class, location);
         // TODO better error handling, data parsing
         if (woeidResults.isEmpty()) {
             throw new IllegalArgumentException("Location not recognized: " + location);
@@ -38,7 +38,7 @@ public class TemperatureServiceImpl implements TemperatureService {
         for (LocalDate d : dates) {
             String dateStr = DATE_FORMATTER.format(d);
             List<Map<String, ?>> tempsForDate = restTemplate
-                    .getForObject(wsHost + "/api/location/{woeid}/" + dateStr + "/", List.class, woeid);
+                    .getForObject(wsRoot + "/api/location/{woeid}/" + dateStr + "/", List.class, woeid);
             if (tempsForDate.isEmpty()) {
                 continue; // TODO better handling?
             }

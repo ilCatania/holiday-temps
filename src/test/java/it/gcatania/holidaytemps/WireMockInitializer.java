@@ -20,11 +20,10 @@ public class WireMockInitializer implements ApplicationContextInitializer<Config
             }
         });
 
-        TestPropertyValues
-                .of(
-                        "holiday.ws.host:http://localhost:" + wireMockServer.port(),
-                        "temperatures.ws.host:http://localhost:" + wireMockServer.port()
-                )
-                .applyTo(configurableApplicationContext);
+        // overwrite webservice endpoints with wiremock managed ones
+        TestPropertyValues.of(
+                "holiday.ws.root:http://localhost:" + wireMockServer.port(),
+                "temperature.ws.root:http://localhost:" + wireMockServer.port()
+        ).applyTo(configurableApplicationContext);
     }
 }

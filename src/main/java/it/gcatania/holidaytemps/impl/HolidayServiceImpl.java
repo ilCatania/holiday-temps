@@ -19,12 +19,12 @@ public class HolidayServiceImpl implements HolidayService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${holiday.ws.host}")
-    private String wsHost;
+    @Value("${holiday.ws.root}")
+    private String wsRoot;
 
     @Override
     public List<Holiday> holidays(String city, LocalDate from, LocalDate to) {
-        Map<String, ?> holidayData = restTemplate.getForObject(wsHost + "/bank-holidays.json", Map.class);
+        Map<String, ?> holidayData = restTemplate.getForObject(wsRoot + "/bank-holidays.json", Map.class);
         // TODO figure out correct region from city, improve deserialization, error handling
         Map<String, ?> holidaysForRegion = (Map<String, ?>) holidayData.get("england-and-wales");
         List<Map<String, String>> holidayEntries = (List<Map<String, String>>) holidaysForRegion.get("events");

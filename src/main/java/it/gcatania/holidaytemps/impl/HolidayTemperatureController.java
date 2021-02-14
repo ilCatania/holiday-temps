@@ -1,7 +1,7 @@
-package it.gcatania.holidaytemps;
+package it.gcatania.holidaytemps.impl;
 
 import it.gcatania.holidaytemps.model.Holiday;
-import it.gcatania.holidaytemps.model.HolidayTempEntry;
+import it.gcatania.holidaytemps.model.HolidayTemperatureEntry;
 import it.gcatania.holidaytemps.model.TemperatureBounds;
 import it.gcatania.holidaytemps.service.HolidayService;
 import it.gcatania.holidaytemps.service.TemperatureService;
@@ -20,9 +20,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-public class TempsController {
+public class HolidayTemperatureController {
 
-    private static Logger log = LoggerFactory.getLogger(TempsController.class);
+    private static Logger log = LoggerFactory.getLogger(HolidayTemperatureController.class);
 
     @Autowired
     private HolidayService holidayService;
@@ -31,7 +31,7 @@ public class TempsController {
     private TemperatureService temperatureService;
 
     @RequestMapping("/bank-holidays/{location}/temps")
-    public List<HolidayTempEntry> temps(
+    public List<HolidayTemperatureEntry> temps(
             @PathVariable String location,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
@@ -47,8 +47,8 @@ public class TempsController {
         List<Holiday> holidays = holidayService.holidays(location, from, to);
         List<LocalDate> dates = holidays.stream().map(Holiday::getDate).collect(Collectors.toList());
         Map<LocalDate, TemperatureBounds> temperatureBounds = temperatureService.temperatureBounds(location, dates);
-        List<HolidayTempEntry> results = holidays.stream()
-                .map(h -> new HolidayTempEntry(h.getDate(), h.getTitle(), temperatureBounds.get(h.getDate())))
+        List<HolidayTemperatureEntry> results = holidays.stream()
+                .map(h -> new HolidayTemperatureEntry(h.getDate(), h.getTitle(), temperatureBounds.get(h.getDate())))
                 .collect(Collectors.toUnmodifiableList());
         return results;
     }

@@ -1,7 +1,8 @@
 package it.gcatania.holidaytemps;
 
+import it.gcatania.holidaytemps.impl.HolidayTemperatureController;
 import it.gcatania.holidaytemps.model.Holiday;
-import it.gcatania.holidaytemps.model.HolidayTempEntry;
+import it.gcatania.holidaytemps.model.HolidayTemperatureEntry;
 import it.gcatania.holidaytemps.model.TemperatureBounds;
 import it.gcatania.holidaytemps.service.HolidayService;
 import it.gcatania.holidaytemps.service.TemperatureService;
@@ -25,7 +26,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = HolidayTempsApplication.class)
-public class TempsControllerTests {
+public class HolidayTemperatureControllerTest {
 
     @MockBean
     private HolidayService holidayService;
@@ -34,7 +35,7 @@ public class TempsControllerTests {
     private TemperatureService temperatureService;
 
     @Autowired
-    private TempsController tempsController;
+    private HolidayTemperatureController holidayTemperatureController;
 
     @Test
     public void happyFlow() {
@@ -49,9 +50,9 @@ public class TempsControllerTests {
                 newYearsDay.getDate(), new TemperatureBounds(22, 20)
         );
 
-        List<HolidayTempEntry> expected = Arrays.asList(
-                new HolidayTempEntry(christmas.getDate(), christmas.getTitle(), tempBoundsMap.get(christmas.getDate())),
-                new HolidayTempEntry(newYearsDay.getDate(), newYearsDay.getTitle(), tempBoundsMap.get(newYearsDay.getDate()))
+        List<HolidayTemperatureEntry> expected = Arrays.asList(
+                new HolidayTemperatureEntry(christmas.getDate(), christmas.getTitle(), tempBoundsMap.get(christmas.getDate())),
+                new HolidayTemperatureEntry(newYearsDay.getDate(), newYearsDay.getTitle(), tempBoundsMap.get(newYearsDay.getDate()))
         );
 
         // mock services
@@ -61,7 +62,7 @@ public class TempsControllerTests {
                 .thenReturn(tempBoundsMap);
 
         // check results
-        List<HolidayTempEntry> actual = tempsController.temps(city, from, to);
+        List<HolidayTemperatureEntry> actual = holidayTemperatureController.temps(city, from, to);
         assertThat(actual, is(equalTo(expected)));
     }
 }

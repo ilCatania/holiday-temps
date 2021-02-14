@@ -70,8 +70,8 @@ class HolidayTempsApplicationTests {
                 .toPath());
         mockMvc.perform(
                 get("/bank-holidays/" + city + "/temps", String.class)
-                        .param("from", from)
-                        .param("to", to))
+                        .param("startDate", from)
+                        .param("endDate", to))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content().json(expectedContent));

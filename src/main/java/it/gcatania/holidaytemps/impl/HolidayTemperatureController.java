@@ -31,19 +31,19 @@ public class HolidayTemperatureController {
     @RequestMapping("/bank-holidays/{location}/temps")
     public List<HolidayTemperatureEntry> temps(
             @PathVariable String location,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
     ) {
         // if dates unspecified or invalid, default to last year
-        if (to == null || to.isAfter(LocalDate.now())) {
-            to = LocalDate.now();
+        if (endDate == null || endDate.isAfter(LocalDate.now())) {
+            endDate = LocalDate.now();
         }
-        if (from == null) {
-            from = to.minusYears(1);
+        if (startDate == null) {
+            startDate = endDate.minusYears(1);
         }
-        log.info("Retrieving holidays and temperatures for {} between {} and {}", location, from, to);
+        log.info("Retrieving holidays and temperatures for {} between {} and {}", location, startDate, endDate);
         // TODO check outputs of holiday / temp services for missing entries, handle
-        List<Holiday> holidays = holidayService.holidays(location, from, to);
+        List<Holiday> holidays = holidayService.holidays(location, startDate, endDate);
         List<LocalDate> dates = holidays.stream().map(Holiday::getDate).collect(Collectors.toList());
         Map<LocalDate, TemperatureBounds> temperatureBounds = temperatureService.temperatureBounds(location, dates);
         List<HolidayTemperatureEntry> results = holidays.stream()

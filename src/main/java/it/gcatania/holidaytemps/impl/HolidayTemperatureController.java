@@ -5,8 +5,7 @@ import it.gcatania.holidaytemps.model.HolidayTemperatureEntry;
 import it.gcatania.holidaytemps.model.TemperatureBounds;
 import it.gcatania.holidaytemps.service.HolidayService;
 import it.gcatania.holidaytemps.service.TemperatureService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +19,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
+@Slf4j
 public class HolidayTemperatureController {
-
-    private static Logger log = LoggerFactory.getLogger(HolidayTemperatureController.class);
 
     @Autowired
     private HolidayService holidayService;
@@ -36,13 +34,14 @@ public class HolidayTemperatureController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
     ) {
+        // if dates unspecified or invalid, default to last year
         if (to == null || to.isAfter(LocalDate.now())) {
             to = LocalDate.now();
         }
         if (from == null) {
             from = to.minusYears(1);
         }
-        log.debug("requested holidays: {}", location);
+        log.info("Retrieving holidays and temperatures for {} between {} and {}", location, from, to);
         // TODO check outputs of holiday / temp services for missing entries, handle
         List<Holiday> holidays = holidayService.holidays(location, from, to);
         List<LocalDate> dates = holidays.stream().map(Holiday::getDate).collect(Collectors.toList());

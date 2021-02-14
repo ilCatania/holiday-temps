@@ -38,11 +38,11 @@ public class TemperatureServiceTest {
                 .withQueryParam("query", equalTo(city))
                 .willReturn(aResponse()
                         .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                        .withBodyFile("woeid-result.json")));
+                        .withBodyFile("woeid-response.json")));
         wireMockServer.stubFor(WireMock.get("/api/location/42/2020/12/25/")
                 .willReturn(aResponse()
                         .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                        .withBodyFile("temperatures-result.json")));
+                        .withBodyFile("temperatures-response.json")));
 
         //verify service call
         Map<LocalDate, TemperatureBounds> expected = Collections

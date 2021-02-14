@@ -36,7 +36,7 @@ public class HolidayServiceTest {
         wireMockServer.stubFor(WireMock.get("/bank-holidays.json")
                 .willReturn(aResponse()
                         .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                        .withBodyFile("bank-holidays.json")));
+                        .withBodyFile("bank-holidays-response.json")));
 
         //verify service call
         List<Holiday> expected = Arrays.asList(

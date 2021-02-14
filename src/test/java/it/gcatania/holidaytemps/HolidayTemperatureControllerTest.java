@@ -50,11 +50,6 @@ public class HolidayTemperatureControllerTest {
                 newYearsDay.getDate(), new TemperatureBounds(22, 20)
         );
 
-        List<HolidayTemperatureEntry> expected = Arrays.asList(
-                new HolidayTemperatureEntry(christmas.getDate(), christmas.getTitle(), tempBoundsMap.get(christmas.getDate())),
-                new HolidayTemperatureEntry(newYearsDay.getDate(), newYearsDay.getTitle(), tempBoundsMap.get(newYearsDay.getDate()))
-        );
-
         // mock services
         when(holidayService.holidays(city, from, to))
                 .thenReturn(Arrays.asList(christmas, newYearsDay));
@@ -62,6 +57,10 @@ public class HolidayTemperatureControllerTest {
                 .thenReturn(tempBoundsMap);
 
         // check results
+        List<HolidayTemperatureEntry> expected = Arrays.asList(
+                new HolidayTemperatureEntry(christmas.getDate(), christmas.getTitle(), tempBoundsMap.get(christmas.getDate())),
+                new HolidayTemperatureEntry(newYearsDay.getDate(), newYearsDay.getTitle(), tempBoundsMap.get(newYearsDay.getDate()))
+        );
         List<HolidayTemperatureEntry> actual = holidayTemperatureController.temps(city, from, to);
         assertThat(actual, is(equalTo(expected)));
     }

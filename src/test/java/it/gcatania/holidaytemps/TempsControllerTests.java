@@ -15,7 +15,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,11 +40,14 @@ public class TempsControllerTests {
     public void happyFlow() {
         // set up test data
         String city = "London";
+        LocalDate from = LocalDate.parse("2020-12-01");
+        LocalDate to = LocalDate.parse("2020-12-31");
         Holiday christmas = new Holiday("Christmas", LocalDate.of(2020, Month.DECEMBER, 25));
         Holiday newYearsDay = new Holiday("New Year's Day", LocalDate.of(2021, Month.JANUARY, 1));
-        Map<LocalDate, TemperatureBounds> tempBoundsMap = new HashMap<>();
-        tempBoundsMap.put(christmas.getDate(), new TemperatureBounds(16, 14));
-        tempBoundsMap.put(newYearsDay.getDate(), new TemperatureBounds(22, 20));
+        Map<LocalDate, TemperatureBounds> tempBoundsMap = Map.of(
+                christmas.getDate(), new TemperatureBounds(16, 14),
+                newYearsDay.getDate(), new TemperatureBounds(22, 20)
+        );
 
         List<HolidayTempEntry> expected = Arrays.asList(
                 new HolidayTempEntry(christmas.getDate(), christmas.getTitle(), tempBoundsMap.get(christmas.getDate())),
@@ -53,13 +55,13 @@ public class TempsControllerTests {
         );
 
         // mock services
-        when(holidayService.holidays(city, null, null))
+        when(holidayService.holidays(city, from, to))
                 .thenReturn(Arrays.asList(christmas, newYearsDay));
         when(temperatureService.temperatureBounds(city, Arrays.asList(christmas.getDate(), newYearsDay.getDate())))
                 .thenReturn(tempBoundsMap);
 
         // check results
-        List<HolidayTempEntry> actual = tempsController.temps(city);
+        List<HolidayTempEntry> actual = tempsController.temps(city, from, to);
         assertThat(actual, is(equalTo(expected)));
     }
 }

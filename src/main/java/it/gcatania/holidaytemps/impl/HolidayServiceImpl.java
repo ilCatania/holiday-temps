@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -29,11 +28,11 @@ public class HolidayServiceImpl implements HolidayService {
         // TODO figure out correct region from city, improve deserialization, error handling
         Map<String, ?> holidaysForRegion = (Map<String, ?>) holidayData.get("england-and-wales");
         List<Map<String, String>> holidayEntries = (List<Map<String, String>>) holidaysForRegion.get("events");
-        List<Holiday> holidays = holidayEntries
+        return holidayEntries
                 .stream()
                 .map(m -> new Holiday(m.get("title"), LocalDate.parse(m.get("date"))))
+                .filter(h -> !h.getDate().isBefore(from) && !h.getDate().isAfter(to))
                 .sorted(Comparator.comparing(Holiday::getDate))
-                .collect(Collectors.toList());
-        return Collections.unmodifiableList(holidays);
+                .collect(Collectors.toUnmodifiableList());
     }
 }

@@ -9,6 +9,12 @@
         "bunting": true
       },
       {
+        "title": "New Year's Extra Day",
+        "date": "2021-01-02",
+        "notes": "fake holiday to test non-inclusiveness",
+        "bunting": true
+      },
+      {
         "title": "Christmas",
         "date": "2020-12-25",
         "notes": "",

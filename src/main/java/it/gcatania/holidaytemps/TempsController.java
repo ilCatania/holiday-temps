@@ -40,7 +40,7 @@ public class TempsController {
             to = LocalDate.now();
         }
         if (from == null) {
-            from = to.minusDays(7);
+            from = to.minusYears(1);
         }
         log.debug("requested holidays: {}", location);
         // TODO check outputs of holiday / temp services for missing entries, handle

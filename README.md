@@ -1,4 +1,4 @@
-![Java CI](https://github.com/ilCatania/holiday-temps/workflows/Java%20CI/badge.svg)
+[![Build](https://github.com/ilCatania/holiday-temps/actions/workflows/ci.yml/badge.svg)](https://github.com/ilCatania/holiday-temps/actions/workflows/ci.yml)
 
 Holiday temperatures
 ====================
